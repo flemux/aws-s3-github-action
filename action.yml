@@ -1,9 +1,12 @@
-name: 'AWS S3 Github Action'
-description: 'This action allows you to use commands similar to AWS S3 CLI.'
-author: 'KeithWeaver'
+name: "AWS S3 Github Action"
+description: "This action allows you to use commands similar to AWS S3 CLI."
+author: "KeithWeaver"
 branding:
-  icon: 'upload-cloud'
-  color: 'red'
+  icon: "upload-cloud"
+  color: "red"
+runs:
+  using: docker
+  image: Dockerfile
 inputs:
   command:
     description: "The command that will be performed. More info: https://docs.aws.amazon.com/cli/latest/reference/s3/#available-commands"
