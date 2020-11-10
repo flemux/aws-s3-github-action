@@ -70,6 +70,9 @@ function get_command {
   fi
 }
 
+echo "HERE IS THE COMMAND SOURCE AND DESTINATION"
+echo $COMMAND $INPUT_SOURCE $INPUT_DESTINATION
+
 function validate_target_and_destination {
   if [ "$COMMAND" == "cp" || "$COMMAND" == "mv" || "$COMMAND" == "sync" ]
   then
@@ -84,7 +87,7 @@ function validate_target_and_destination {
 
     # Verify at least one source or target have s3:// as prefix
     # if [[] || []]
-    if [ $INPUT_SOURCE != *"s3://"* ] || [ $ != *"s3://"* ]
+    if [ $INPUT_SOURCE != *"s3://"* ] || [ $INPUT_DESTINATION != *"s3://"* ]
     then
       echo ""
       echo "Error: Source destination or target destination must have s3:// as prefix."
