@@ -9,6 +9,7 @@ function usage_docs {
   echo "    aws_secret_access_key: \${{ secret.AWS_SECRET_ACCESS_KEY }}"
   echo ""
 }
+
 function get_profile {
   PROFILE=""
   if [ -z "$INPUT_PROFILE" ]
@@ -17,6 +18,7 @@ function get_profile {
     PROFILE=" --profile=$INPUT_PROFILE"
   fi
 }
+
 function get_configuration_settings {
   if [ -z "$INPUT_AWS_ACCESS_KEY_ID" ]
   then
@@ -53,6 +55,7 @@ function get_configuration_settings {
     aws configure set metadata_service_timeout $INPUT_METADATA_SERVICE_TIMEOUT $PROFILE
   fi
 }
+
 function get_command {
   VALID_COMMANDS=("sync" "mb" "rb" "ls" "cp" "mv" "rm")
   COMMAND="cp"
@@ -66,11 +69,12 @@ function get_command {
     COMMAND=$INPUT_COMMAND
   fi
 }
+
 function validate_target_and_destination {
   if [ "$COMMAND" == "cp" || "$COMMAND" == "mv" || "$COMMAND" == "sync" ]
   then
     # Require source and target
-    if [ -z "$INPUT_SOURCE" && "$INPUT_TARGET" ]
+    if [ -z "$INPUT_SOURCE" && "$INPUT_DESTINATION" ]
     then
       echo ""
       echo "Error: Requires source and target destinations."
@@ -80,7 +84,7 @@ function validate_target_and_destination {
 
     # Verify at least one source or target have s3:// as prefix
     # if [[] || []]
-    if [ $INPUT_SOURCE != *"s3://"* ] || [ $INPUT_TARGET != *"s3://"* ]
+    if [ $INPUT_SOURCE != *"s3://"* ] || [ $ != *"s3://"* ]
     then
       echo ""
       echo "Error: Source destination or target destination must have s3:// as prefix."
@@ -105,6 +109,7 @@ function validate_target_and_destination {
     fi
   fi
 }
+
 function main {
   get_profile
   get_configuration_settings
@@ -112,7 +117,7 @@ function main {
   validate_target_and_destination
   if [ "$COMMAND" == "cp" || "$COMMAND" == "mv" || "$COMMAND" == "sync" ]
   then
-    "aws s3 $command $INPUT_SOURCE $INPUT_TARGET $INPUT_FLAGS"
+    "aws s3 $command $INPUT_SOURCE $INPUT_DESTINATION $INPUT_FLAGS"
   else
     "aws s3 $command $INPUT_SOURCE $INPUT_FLAGS"
   fi
