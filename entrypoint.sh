@@ -70,11 +70,10 @@ function get_command {
   fi
 }
 
-echo "HERE IS THE COMMAND SOURCE AND DESTINATION"
-echo $COMMAND $INPUT_SOURCE $INPUT_DESTINATION
-
 function validate_target_and_destination {
-  if [ "$COMMAND" == "cp" || "$COMMAND" == "mv" || "$COMMAND" == "sync" ]
+echo "HERE IS THE COMMAND SOURCE AND DESTINATION"
+  echo $INPUT_COMMAND $INPUT_SOURCE $INPUT_DESTINATION
+  if [ "$INPUT_COMMAND" == "cp" || "$INPUT_COMMAND" == "mv" || "$INPUT_COMMAND" == "sync" ]
   then
     # Require source and target
     if [ -z "$INPUT_SOURCE" && "$INPUT_DESTINATION" ]
@@ -118,11 +117,11 @@ function main {
   get_configuration_settings
   get_command
   validate_target_and_destination
-  if [ "$COMMAND" == "cp" || "$COMMAND" == "mv" || "$COMMAND" == "sync" ]
+  if [ "$INPUT_COMMAND" == "cp" || "$INPUT_COMMAND" == "mv" || "$INPUT_COMMAND" == "sync" ]
   then
-    "aws s3 $command $INPUT_SOURCE $INPUT_DESTINATION $INPUT_FLAGS"
+    "aws s3 $INPUT_COMMAND $INPUT_SOURCE $INPUT_DESTINATION $INPUT_FLAGS"
   else
-    "aws s3 $command $INPUT_SOURCE $INPUT_FLAGS"
+    "aws s3 $INPUT_COMMAND $INPUT_SOURCE $INPUT_FLAGS"
   fi
 }
 
