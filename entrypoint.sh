@@ -73,7 +73,9 @@ function get_command {
 function validate_target_and_destination {
 echo "HERE IS THE COMMAND SOURCE AND DESTINATION"
   echo $INPUT_COMMAND $INPUT_SOURCE $INPUT_DESTINATION
-  if [ "$INPUT_COMMAND" == "cp" || "$INPUT_COMMAND" == "mv" || "$INPUT_COMMAND" == "sync" ]
+  echo "$INPUT_COMMAND" == "cp"
+
+  if ["$INPUT_COMMAND" == "cp"] || ["$INPUT_COMMAND" == "mv" ] || ["$INPUT_COMMAND" == "sync"] 
   then
     # Require source and target
     if [ -z "$INPUT_SOURCE" && "$INPUT_DESTINATION" ]
@@ -94,6 +96,7 @@ echo "HERE IS THE COMMAND SOURCE AND DESTINATION"
       exit 1
     fi
   else
+    echo "The else condition has been followed"
     # Require source
     if [ -z "$INPUT_SOURCE" ]
     then
