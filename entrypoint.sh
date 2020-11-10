@@ -73,12 +73,12 @@ function get_command {
 function validate_target_and_destination {
 echo "HERE IS THE COMMAND SOURCE AND DESTINATION"
   echo $INPUT_COMMAND $INPUT_SOURCE $INPUT_DESTINATION
-  echo "$INPUT_COMMAND" == "cp"
+  echo $INPUT_COMMAND == "cp"
 
-  if ["$INPUT_COMMAND" == "cp"] || ["$INPUT_COMMAND" == "mv" ] || ["$INPUT_COMMAND" == "sync"] 
+  if [["$INPUT_COMMAND" == "cp"|| "$INPUT_COMMAND" == "mv"  || "$INPUT_COMMAND" == "sync"]] 
   then
     # Require source and target
-    if [ -z "$INPUT_SOURCE" && "$INPUT_DESTINATION" ]
+    if [[ -z "$INPUT_SOURCE" && "$INPUT_DESTINATION" ]]
     then
       echo ""
       echo "Error: Requires source and target destinations."
@@ -88,7 +88,7 @@ echo "HERE IS THE COMMAND SOURCE AND DESTINATION"
 
     # Verify at least one source or target have s3:// as prefix
     # if [[] || []]
-    if [ $INPUT_SOURCE != *"s3://"* ] || [ $INPUT_DESTINATION != *"s3://"* ]
+    if [[ $INPUT_SOURCE != *"s3://"* || $INPUT_DESTINATION != *"s3://"* ]]
     then
       echo ""
       echo "Error: Source destination or target destination must have s3:// as prefix."
@@ -120,7 +120,7 @@ function main {
   get_configuration_settings
   get_command
   validate_target_and_destination
-  if [ "$INPUT_COMMAND" == "cp" || "$INPUT_COMMAND" == "mv" || "$INPUT_COMMAND" == "sync" ]
+  if [[ "$INPUT_COMMAND" == "cp" || "$INPUT_COMMAND" == "mv" || "$INPUT_COMMAND" == "sync" ]]
   then
     "aws s3 $INPUT_COMMAND $INPUT_SOURCE $INPUT_DESTINATION $INPUT_FLAGS"
   else
@@ -129,3 +129,18 @@ function main {
 }
 
 main
+
+# function test {
+# echo "HERE IS THE COMMAND SOURCE AND DESTINATION"
+#   echo $INPUT_COMMAND $INPUT_SOURCE $INPUT_DESTINATION
+#   echo [$INPUT_COMMAND == "cp"]
+
+#   if [[ "$INPUT_COMMAND" ==  "cp" || "$INPUT_COMMAND" == "mv" || "$INPUT_COMMAND" == "sync" ]]
+#   then
+#     echo "true"
+#   else
+#     echo "false"
+#   fi
+# }
+
+# test
